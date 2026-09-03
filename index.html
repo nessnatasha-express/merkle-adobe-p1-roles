@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACS Engagement Roles | Merkle</title>
+  <style>
+    :root {
+      --border-focus-outline: #696969;
+      --border-heavy: #C7C7C7;
+      --border-medium: #D7D7D7;
+      --border-subtle: #E4E4E4;
+      --intent-error: #F9615D;
+      --intent-error-container: #FFE9E6;
+      --intent-info: #9472D6;
+      --intent-info-container: #F0EBFF;
+      --intent-success: #25DA53;
+      --intent-success-container: #DAF8DB;
+      --intent-warning: #FFD38C;
+      --intent-warning-container: #F7EDDE;
+      --on-surface: #1F1F1F;
+      --on-surface-subtle: #505050;
+      --primary-brand: #0328D1;
+      --primary-brand-hover: #1E56FA;
+      --primary-container: #E7EFFF;
+      --primary-on-brand: #FFFFFF;
+      --secondary-brand: #2F98F7;
+      --secondary-container: #E3F0FF;
+      --tertiary-brand: #6311CB;
+      --tertiary-container: #EFECFF;
+      --surface-body: #FCFCFC;
+      --surface-container-low: #F7F7F7;
+      --surface-container-mid: #EEEEEE;
+      --surface-subtle: #E4E4E4;
+      --shadow-card: 0.3px 0.5px 0.7px 0px rgba(31,31,31,0.34), 0.4px 0.8px 1px -1.2px rgba(31,31,31,0.34), 1px 2px 2.5px -2.5px rgba(31,31,31,0.34);
+      --shadow-mid: 0.3px 0.5px 0.7px 0px rgba(31,31,31,0.36), 0.8px 1.6px 2px -0.8px rgba(31,31,31,0.36), 2.1px 4.1px 5.2px -1.7px rgba(31,31,31,0.36), 5px 10px 12.6px -2.5px rgba(31,31,31,0.36);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      background: var(--surface-body);
+      color: var(--on-surface);
+      font-family: "Work Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Main layout */
+    .container { display: flex; width: 100%; flex: 1; overflow: hidden; }
+    .sidebar {
+      width: 280px;
+      background: var(--surface-container-low);
+      border-right: 1px solid var(--border-subtle);
+      overflow-y: auto;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-header {
+      padding: 24px 24px 32px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .logo {
+      height: 32px;
+      width: auto;
+      display: block;
+      margin-bottom: 0;
+    }
+    .sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 0;
+    }
+    .sidebar-footer {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 11px;
+      color: var(--on-surface-subtle);
+      line-height: 1.4;
+    }
+    .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+
+    /* Navigation */
+    .nav-section { padding: 0 16px; margin-bottom: 24px; }
+    .nav-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--primary-brand);
+      padding: 8px 12px;
+      margin-bottom: 12px;
+    }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: var(--on-surface);
+      text-decoration: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+      margin-bottom: 4px;
+    }
+    .nav-link:hover {
+      background: var(--surface-container-mid);
+    }
+    .nav-link.active {
+      background: var(--primary-container);
+      color: var(--primary-brand);
+      border-left-color: var(--primary-brand);
+      font-weight: 600;
+    }
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Content */
+    .content-wrap {
+      flex: 1;
+      padding: 48px 64px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; animation: fadeIn 0.3s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* Page title */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .page-title-group h1 {
+      font-size: 44px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0 0 8px;
+      line-height: 1.1;
+    }
+    .page-title-group .subtitle {
+      font-size: 16px;
+      color: var(--on-surface-subtle);
+      margin: 0;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .status-defining {
+      background: #FFE8CC;
+      color: var(--on-surface);
+    }
+    .status-filled {
+      background: var(--intent-success-container);
+      color: var(--on-surface);
+    }
+    .status-open {
+      background: var(--secondary-container);
+      color: var(--primary-brand);
+    }
+    .status-in-development {
+      background: var(--secondary-container);
+      color: var(--primary-brand);
+    }
+    .status-planning {
+      background: var(--intent-info-container);
+      color: var(--on-surface);
+    }
+
+    /* Initiative description */
+    .initiative-section {
+      background: var(--surface-container-low);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 40px;
+    }
+    .initiative-section h3 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--on-surface-subtle);
+      margin: 0 0 12px;
+    }
+    .initiative-section p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--on-surface);
+      margin: 0;
+    }
+
+    /* Role page layout */
+    .role-page-container {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+      height: 100%;
+    }
+
+    .role-sidebar {
+      background: var(--surface-container-low);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-y: auto;
+      border: 1px solid var(--border-subtle);
+      height: fit-content;
+    }
+    .role-sidebar h3 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--on-surface-subtle);
+      margin: 0 0 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .role-pill {
+      display: block;
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      background: var(--surface-body);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--on-surface);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      position: relative;
+      padding-right: 40px;
+    }
+    .role-pill:hover {
+      border-color: var(--primary-brand);
+      background: var(--primary-container);
+    }
+    .role-pill.active {
+      background: var(--primary-brand);
+      color: var(--primary-on-brand);
+      border-color: var(--primary-brand);
+    }
+    .role-count {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.1);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      opacity: 0.6;
+    }
+    .role-pill.active .role-count {
+      background: rgba(255,255,255,0.3);
+      opacity: 1;
+    }
+
+    /* Role detail */
+    .role-detail-content {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .role-main h3 {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: var(--on-surface);
+    }
+    .role-main .status-badge {
+      display: inline-flex;
+      margin-bottom: 20px;
+    }
+    .role-main .role-description {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--on-surface);
+      margin-bottom: 24px;
+    }
+
+    .role-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .meta-block h4 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--on-surface-subtle);
+      margin: 0 0 12px;
+    }
+    .meta-block p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .skill-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .skill-item {
+      font-size: 13px;
+      color: var(--on-surface);
+      padding-left: 12px;
+      position: relative;
+    }
+    .skill-item::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--primary-brand);
+      font-weight: bold;
+    }
+
+    .tech-stack {
+      background: var(--surface-container-low);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+    .tech-stack h4 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--on-surface-subtle);
+      margin: 0 0 16px;
+    }
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tech-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--primary-container);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--primary-brand);
+      font-weight: 500;
+    }
+
+    /* Summary page */
+    .summary-intro {
+      margin-bottom: 32px;
+    }
+    .summary-intro h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 0 16px;
+      color: var(--on-surface);
+    }
+    .summary-intro p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--on-surface-subtle);
+      margin: 0;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .summary-card {
+      background: var(--surface-container-low);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .summary-card:hover {
+      border-color: var(--primary-brand);
+      box-shadow: var(--shadow-card);
+    }
+    .summary-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .summary-card-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .summary-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+      color: var(--on-surface);
+    }
+    .summary-card .pod-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--on-surface-subtle);
+      margin: 0;
+    }
+    .summary-card-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: currentColor;
+    }
+    .summary-card p {
+      font-size: 13px;
+      color: var(--on-surface-subtle);
+      margin: 0;
+    }
+    .summary-stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--primary-container);
+      border: 1px solid var(--primary-brand);
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--primary-brand);
+      font-weight: 600;
+    }
+
+    /* Hero */
+    .summary-hero {
+      background: linear-gradient(135deg, var(--primary-brand) 0%, var(--secondary-brand) 100%);
+      border-radius: 12px;
+      padding: 48px;
+      color: var(--primary-on-brand);
+      margin-bottom: 48px;
+      box-shadow: var(--shadow-mid);
+    }
+    .summary-hero h1 {
+      font-size: 44px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      line-height: 1.1;
+    }
+    .summary-hero p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+      opacity: 0.95;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .role-meta-grid { grid-template-columns: 1fr; }
+      .content-wrap { padding: 32px 40px; }
+    }
+
+    @media (max-width: 900px) {
+      .container { flex-direction: column; }
+      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-subtle); }
+      .role-page-container { grid-template-columns: 1fr; }
+      .content-wrap { padding: 32px 24px; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .page-header { flex-direction: column; }
+    }
+
+    @media (max-width: 480px) {
+      .content-wrap { padding: 24px 16px; }
+      .summary-hero { padding: 32px 24px; }
+      .summary-hero h1 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <svg class="logo" viewBox="0 0 181 99" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_32_239)">
+            <path d="M54.3156 44.4663H0L54.3156 98.7712V44.4663Z" fill="#F23A1D"/>
+            <path d="M180.455 98.9999H159.447V40.1723L127.912 71.702L96.3747 40.1723V98.9999H75.3691V0H86.5308L128.198 41.659L169.293 0H180.455V98.9999Z" fill="#12295D"/>
+          </g>
+          <defs>
+            <clipPath id="clip0_32_239">
+              <rect width="180.455" height="98.9999" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="nav-section">
+          <div class="nav-link active" onclick="showPage('summary')" data-page="summary">
+            Summary
+          </div>
+        </div>
+        <div class="nav-section">
+          <div class="nav-label">Engagement Focus</div>
+          <div class="nav-link" onclick="showPage('drago')" data-page="drago">
+            <div class="nav-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 2C10 2 6 8 6 12C6 14.2091 7.79086 16 10 16C12.2091 16 14 14.2091 14 12C14 8 10 2 10 2Z" fill="currentColor"/>
+                <path d="M9 13C8.44772 13 8 13.4477 8 14C8 14.5523 8.44772 15 9 15C9.55228 15 10 14.5523 10 14C10 13.4477 9.55228 13 9 13Z" fill="white"/>
+              </svg>
+            </div>
+            Drago Roles
+          </div>
+          <div class="nav-link" onclick="showPage('horizon')" data-page="horizon">
+            <div class="nav-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 14C2 14 4 10 10 10C16 10 18 14 18 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M6 12C6 12 7.5 9 10 9C12.5 9 14 12 14 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="10" cy="4" r="2" fill="currentColor"/>
+                <path d="M2 18H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            Horizon Roles
+          </div>
+          <div class="nav-link" onclick="showPage('fast-track')" data-page="fast-track">
+            <div class="nav-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="8" cy="3" r="1.5" fill="currentColor"/>
+                <path d="M8 5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M5.5 7L3 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M10.5 7L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M8 10L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M8 10L12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            Fast Track Roles
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div>Last updated on:</div>
+        <div style="font-weight: 600; margin-bottom: 12px;">September 3, 2026</div>
+        <div>Updated by:</div>
+        <div style="font-weight: 600;">Natasha Ness</div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="content-wrap">
+        <!-- Summary Page -->
+        <div class="page active" id="summary">
+          <div class="summary-hero">
+            <h1>Adobe IS + TBYB Roles Review</h1>
+            <p>Explore talent details the Merkle team drafted across critical newly shaping roles within Adobe's "Try Before You Buy" (TBYB) and "Integrated Services" (IS) programs. These are focused sub-pods delivering modern, AI-powered capabilities at scale.</p>
+          </div>
+
+          <div class="summary-intro">
+            <h2>Engagement Focus</h2>
+            <p>While we have a current total of 8 engagement focuses for this SOW (leadership, AEM/AJO, EAs for IS, IS Delivery, Product Modernization (AA/CJA) are the others) below are the 3 new initiatives that fall under Pod Tier 3.4 specifically. Click into each one to see the roles, and notify Natasha or Andrew with any feedback on them.</p>
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-card" onclick="showPage('drago')">
+              <div class="summary-card-header">
+                <div class="summary-card-title">
+                  <h3>Drago</h3>
+                  <p class="pod-label">Tier 3.4a POD</p>
+                </div>
+                <div class="summary-card-icon">
+                  <svg width="40" height="40" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 2C10 2 6 8 6 12C6 14.2091 7.79086 16 10 16C12.2091 16 14 14.2091 14 12C14 8 10 2 10 2Z" fill="currentColor"/>
+                    <path d="M9 13C8.44772 13 8 13.4477 8 14C8 14.5523 8.44772 15 9 15C9.55228 15 10 14.5523 10 14C10 13.4477 9.55228 13 9 13Z" fill="white"/>
+                  </svg>
+                </div>
+              </div>
+              <p>Agentic Web & EDS</p>
+              <div class="summary-stat-pill">6 unique roles</div>
+            </div>
+            <div class="summary-card" onclick="showPage('horizon')">
+              <div class="summary-card-header">
+                <div class="summary-card-title">
+                  <h3>Horizon</h3>
+                  <p class="pod-label">Tier 3.4b POD</p>
+                </div>
+                <div class="summary-card-icon">
+                  <svg width="40" height="40" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 14C2 14 4 10 10 10C16 10 18 14 18 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M6 12C6 12 7.5 9 10 9C12.5 9 14 12 14 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="10" cy="4" r="2" fill="currentColor"/>
+                    <path d="M2 18H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+              <p>AI Pilot Programs</p>
+              <div class="summary-stat-pill">6 unique roles</div>
+            </div>
+            <div class="summary-card" onclick="showPage('fast-track')">
+              <div class="summary-card-header">
+                <div class="summary-card-title">
+                  <h3>Fast Track</h3>
+                  <p class="pod-label">Tier 3.4c POD</p>
+                </div>
+                <div class="summary-card-icon">
+                  <svg width="40" height="40" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="8" cy="3" r="1.5" fill="currentColor"/>
+                    <path d="M8 5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M5.5 7L3 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M10.5 7L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M8 10L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M8 10L12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+              <p>Workfront & AEM Assets</p>
+              <div class="summary-stat-pill">5 unique roles</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drago Page -->
+        <div class="page" id="drago">
+          <div class="page-header">
+            <div class="page-title-group">
+              <h1>Drago</h1>
+              <p class="subtitle">Agentic Web & Edge Delivery Services</p>
+            </div>
+            <div class="status-badge status-in-development">● In Development</div>
+          </div>
+
+          <div class="initiative-section">
+            <h3>What is this initiative</h3>
+            <p>Build modern, AI-powered web experiences leveraging AEM and Edge Delivery Services. Drago combines traditional AEM architecture with agentic design patterns to deliver scalable, performant digital solutions that bridge enterprise content management with emerging AI capabilities.</p>
+          </div>
+
+          <div class="role-page-container">
+            <div class="role-sidebar" id="drago-sidebar"></div>
+            <div class="role-detail-content" id="drago-content"></div>
+          </div>
+        </div>
+
+        <!-- Horizon Page -->
+        <div class="page" id="horizon">
+          <div class="page-header">
+            <div class="page-title-group">
+              <h1>Horizon</h1>
+              <p class="subtitle">AI Pilot Programs</p>
+            </div>
+            <div class="status-badge status-in-development">● In Development</div>
+          </div>
+
+          <div class="initiative-section">
+            <h3>What is this initiative</h3>
+            <p>Accelerate innovation through structured AI pilot programs. Horizon brings together ideation, rapid prototyping, and ROI validation to test emerging AI and agentic capabilities in controlled environments, building business cases for enterprise-scale adoption.</p>
+          </div>
+
+          <div class="role-page-container">
+            <div class="role-sidebar" id="horizon-sidebar"></div>
+            <div class="role-detail-content" id="horizon-content"></div>
+          </div>
+        </div>
+
+        <!-- Fast Track Page -->
+        <div class="page" id="fast-track">
+          <div class="page-header">
+            <div class="page-title-group">
+              <h1>Fast Track</h1>
+              <p class="subtitle">Workfront & AEM Assets</p>
+            </div>
+            <div class="status-badge status-planning">● Planning</div>
+          </div>
+
+          <div class="initiative-section">
+            <h3>What is this initiative</h3>
+            <p>Stand up Workfront and AEM Assets operational capabilities at speed. Fast Track delivers rapid enablement of work management and digital asset governance, with embedded AI and automation to drive productivity from day one.</p>
+          </div>
+
+          <div class="role-page-container">
+            <div class="role-sidebar" id="fast-track-sidebar"></div>
+            <div class="role-detail-content" id="fast-track-content"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Role data with technologies
+    const roleData = {
+      drago: [
+        {
+          title: "AEM + Agentic Architect",
+          description: "Leads the technical strategy for agentic web experiences and AEM integration with Edge Delivery Services. Designs system architectures that bridge traditional AEM implementations with modern agentic AI patterns, ensuring scalability and performance.",
+          status: "Open",
+          typical_names: ["Senior AEM Architect", "Technical Lead", "Systems Architect"],
+          primary_skills: "AEM Architecture; Agentic Systems Design; AI Integration",
+          secondary_skills: "Frontend Architecture; System Design",
+          technologies: ["AEM", "Edge Delivery Services", "Agentic AI", "System Design", "Prompt Engineering"]
+        },
+        {
+          title: "AEM EDS Developer",
+          description: "Develops and optimizes web experiences using AEM and Edge Delivery Services, leveraging modern programming languages including JavaScript frameworks and edge computing. Collaborates with architects to implement performant, AI-integrated web solutions.",
+          statuses: ["Filled", "Open"],
+          typical_names: ["Full Stack Developer", "AEM Developer", "Frontend Engineer"],
+          primary_skills: "AEM Development; Edge Delivery Services; Modern JS",
+          secondary_skills: "Backend Integration; Performance Optimization",
+          technologies: ["AEM", "Edge Delivery Services", "JavaScript", "React", "Performance Optimization", "REST APIs"],
+          count: 2
+        },
+        {
+          title: "Design Engineer",
+          description: "Bridges design and engineering by translating user-centered designs into interactive components and systems. Works closely with architects and developers to ensure consistency, accessibility, and performance across the platform.",
+          status: "Open",
+          typical_names: ["Product Designer", "UI/UX Engineer", "Design Systems Engineer"],
+          primary_skills: "UI/UX Design; Component Design; Design Systems",
+          secondary_skills: "Prototyping; User Research; Accessibility",
+          technologies: ["Figma", "React", "Design Systems", "CSS", "Accessibility", "Component Architecture"]
+        },
+        {
+          title: "QA",
+          description: "Executes comprehensive quality assurance for AEM implementations and agentic features, including automation testing and performance validation. Ensures edge cases and user workflows are thoroughly tested across browsers and devices.",
+          status: "Filled",
+          typical_names: ["QA Engineer", "Test Automation Engineer", "Quality Assurance Lead"],
+          primary_skills: "Quality Assurance; Test Automation; AEM Testing",
+          secondary_skills: "Edge Case Coverage; Performance Testing",
+          technologies: ["Selenium", "Jest", "Test Automation", "Performance Testing", "AEM", "Cypress"]
+        },
+        {
+          title: "Business Analyst",
+          description: "Translates client business requirements into technical specifications and user stories for the delivery team. Facilitates requirements workshops and maintains alignment between stakeholder expectations and solution design.",
+          status: "Open",
+          typical_names: ["Business Systems Analyst", "Requirements Analyst", "Product Analyst"],
+          primary_skills: "Requirements Analysis; Feature Definition; Workflow Documentation",
+          secondary_skills: "User Story Development; Stakeholder Communication",
+          technologies: ["Jira", "Confluence", "User Story Mapping", "Wireframing", "Process Documentation"]
+        },
+        {
+          title: "Product Manager",
+          description: "Owns program planning, resource coordination, and timeline management for pod deliverables. Orchestrates cross-functional teams, manages stakeholder communication, and ensures delivery milestones align with business objectives.",
+          status: "Open",
+          typical_names: ["Program Manager", "Project Lead", "Delivery Manager"],
+          primary_skills: "Program Planning; Resource Coordination; Timeline Management",
+          secondary_skills: "Stakeholder Communication; Delivery Oversight",
+          technologies: ["Jira", "Monday.com", "Workfront", "Gantt Charts", "Roadmap Planning"]
+        }
+      ],
+      horizon: [
+        {
+          title: "Innovation Lab Lead",
+          description: "Leads AI and agentic pilot programs, workshop facilitation, guiding proof-of-concept development, extensive ideation across tangible AI capabilities, and business case validation. Fosters experimentation culture while maintaining focus on measurable business outcomes and client value.",
+          status: "Open",
+          typical_names: ["Innovation Manager", "Pilot Lead", "Program Lead"],
+          primary_skills: "Lab Leadership; AI Experimentation; Proof of Concept",
+          secondary_skills: "Ideation Facilitation; Pilot Program Management",
+          technologies: ["AI/ML Frameworks", "Generative AI", "Prompt Engineering", "Business Case Development"],
+          count: 2
+        },
+        {
+          title: "Design Engineer",
+          description: "Bridges design and engineering by translating user-centered designs into interactive components and systems. Works closely with architects and developers to ensure consistency, accessibility, and performance across the platform.",
+          status: "Open",
+          typical_names: ["Product Designer", "UI/UX Engineer", "Design Systems Engineer"],
+          primary_skills: "UI/UX Design; Component Design; Design Systems",
+          secondary_skills: "Prototyping; User Research; Accessibility",
+          technologies: ["Figma", "React", "Design Systems", "CSS", "Accessibility", "Prototyping"]
+        },
+        {
+          title: "Value Engineer",
+          description: "Quantifies business impact and ROI for AI and agentic pilot programs, building compelling economic models for executive leadership. Translates technical innovations into business case narratives that drive expansion decisions.",
+          status: "Open",
+          typical_names: ["Solutions Engineer", "Sales Engineer", "Business Value Analyst"],
+          primary_skills: "Value Quantification; ROI Analysis; Business Case Development",
+          secondary_skills: "Economic Modeling; Impact Analysis",
+          technologies: ["Excel", "Tableau", "Financial Modeling", "Business Analytics", "PowerBI"]
+        },
+        {
+          title: "AI Developer",
+          description: "Develops AI-powered and agentic system prototypes, experimenting with emerging models and prompt engineering techniques. Balances rapid experimentation with code quality to validate new capabilities and build proof-of-concepts.",
+          status: "Open",
+          typical_names: ["AI/ML Developer", "AI Engineer", "Software Engineer"],
+          primary_skills: "AI/ML Development; Agentic Systems; Prototyping",
+          secondary_skills: "Experimentation; Code Velocity; Prompt Engineering",
+          technologies: ["Python", "TensorFlow", "LLMs", "Claude API", "Prompt Engineering", "Jupyter"],
+          count: 2
+        },
+        {
+          title: "QA",
+          description: "Performs quality assurance for AI and agentic systems, including prompt testing, edge case coverage, and performance validation. Develops test strategies for emerging AI behaviors and ensures reliability across pilot programs.",
+          status: "Filled",
+          typical_names: ["QA Engineer", "Test Engineer", "Automation Tester"],
+          primary_skills: "Quality Assurance; Test Automation; AI Testing",
+          secondary_skills: "Edge Case Coverage; Performance Testing",
+          technologies: ["Prompt Testing", "Test Automation", "Python", "Edge Case Analysis", "LLM Evaluation"]
+        },
+        {
+          title: "Change Activation Strategist",
+          description: "Enables and activates the people and process changes required to deliver AI initiatives, partnering with the pod and Tier 1/Tier 2 leadership to drive adoption. Leads change management for AI pilots within client organizations, aligning operating models, stakeholders, and ways of working to sustain new capabilities.",
+          status: "Open",
+          typical_names: ["Change Management Lead", "Organizational Change Consultant", "Transformation Manager"],
+          primary_skills: "Change Management; Operations Management; AI Advisory",
+          secondary_skills: "Stakeholder Enablement; Adoption Planning; Process Design",
+          technologies: ["Change Management Frameworks", "ADKAR", "Organizational Design", "Communication Planning", "Training Development"]
+        }
+      ],
+      "fast-track": [
+        {
+          title: "Workfront Administrator",
+          description: "Administers Workfront for fast-track engagements, configuring work types, request queues, custom forms, and approval workflows. Maintains user provisioning, permissions, and reporting so delivery teams can stand up new intake and work management quickly.",
+          status: "Open",
+          typical_names: ["Workfront Administrator", "Work Management Administrator", "Workfront Consultant"],
+          primary_skills: "Workfront Administration; Workflow Configuration; Custom Forms",
+          secondary_skills: "User Provisioning; Reporting & Dashboards; Intake Design",
+          technologies: ["Workfront", "Custom Forms", "Workflow Configuration", "Reporting", "API Integrations"]
+        },
+        {
+          title: "Workfront Developer",
+          description: "Builds and extends Workfront beyond configuration — developing integrations via the Workfront API, automating work management with Workfront Fusion scenarios, and standing up agent-based and AI-assisted workflows. Partners with the Workfront Admin to turn intake and delivery processes into scalable, connected automation.",
+          status: "Open",
+          typical_names: ["Workfront Fusion Developer", "Integration Engineer", "Automation Engineer"],
+          primary_skills: "Workfront API Development; Workfront Fusion; Workflow Automation",
+          secondary_skills: "Agentic & AI Automation; REST/JSON Integrations; Scripting & Webhooks",
+          technologies: ["Workfront API", "Workfront Fusion", "JavaScript", "REST APIs", "Webhooks", "JSON"]
+        },
+        {
+          title: "AI Developer",
+          description: "Develops AI-powered and agentic system prototypes, experimenting with emerging models and prompt engineering techniques. Balances rapid experimentation with code quality to validate new capabilities and build proof-of-concepts.",
+          status: "Open",
+          typical_names: ["AI/ML Developer", "AI Engineer", "Software Engineer"],
+          primary_skills: "AI/ML Development; Agentic Systems; Prototyping",
+          secondary_skills: "Experimentation; Code Velocity; Prompt Engineering",
+          technologies: ["Python", "LLMs", "Workfront API Integration", "Prompt Engineering", "Claude API"]
+        },
+        {
+          title: "AEM Assets Admin",
+          description: "Administers AEM Assets, managing repository structure, metadata schemas, taxonomies, and asset processing profiles. Configures permissions, workflows, and integrations so content and creative teams can onboard and distribute assets at speed.",
+          status: "Open",
+          typical_names: ["DAM Administrator", "AEM Assets Administrator", "Digital Asset Manager"],
+          primary_skills: "AEM Assets Administration; Metadata & Taxonomy; Asset Workflows",
+          secondary_skills: "Permissions & Governance; Asset Migration; Integrations",
+          technologies: ["AEM Assets", "Metadata Management", "Taxonomy Design", "Workflow Configuration", "DAM Governance"]
+        },
+        {
+          title: "Business Analyst",
+          description: "Drafts and maintains requirements for fast-track activations, translating client goals into user stories, acceptance criteria, and a prioritized backlog. Facilitates requirements workshops and keeps the Workfront and AEM Assets workstreams aligned on scope and sequencing.",
+          status: "Open",
+          typical_names: ["Business Systems Analyst", "Requirements Analyst", "Product Owner"],
+          primary_skills: "Requirements Definition; Backlog Management; User Story Development",
+          secondary_skills: "Workshop Facilitation; Process Mapping; Stakeholder Alignment",
+          technologies: ["Jira", "Confluence", "User Story Mapping", "Process Documentation", "Backlog Management"]
+        }
+      ]
+    };
+
+    function deduplicateRoles(engagement) {
+      const roleMap = new Map();
+      const roles = roleData[engagement];
+
+      roles.forEach(role => {
+        const key = role.title;
+        if (roleMap.has(key)) {
+          const existing = roleMap.get(key);
+          existing.count = (existing.count || 1) + 1;
+        } else {
+          roleMap.set(key, { ...role, count: role.count || 1 });
+        }
+      });
+
+      return Array.from(roleMap.values());
+    }
+
+    function renderRoles(engagement) {
+      const uniqueRoles = deduplicateRoles(engagement);
+      const sidebar = document.getElementById(`${engagement}-sidebar`);
+      const content = document.getElementById(`${engagement}-content`);
+
+      sidebar.innerHTML = `<h3>Roles (${uniqueRoles.length})</h3>`;
+      content.innerHTML = "";
+
+      uniqueRoles.forEach((role, idx) => {
+        const btn = document.createElement("button");
+        btn.className = `role-pill ${idx === 0 ? "active" : ""}`;
+        btn.innerHTML = `${role.title}<span class="role-count">×${role.count}</span>`;
+        btn.onclick = () => selectRole(engagement, idx);
+        sidebar.appendChild(btn);
+
+        // Determine which status(es) to display
+        let statusesToShow = [];
+        if (role.statuses && role.statuses.length > 0) {
+          statusesToShow = role.statuses;
+        } else if (role.status) {
+          statusesToShow = [role.status];
+        } else {
+          statusesToShow = ["Open"];
+        }
+        
+        const detail = document.createElement("div");
+        detail.style.display = idx === 0 ? "block" : "none";
+        detail.id = `${engagement}-role-${idx}`;
+        
+        const resourceText = role.count === 1 ? 'Resource' : 'Resources';
+        
+        // Build status badges
+        let statusBadgesHTML = '';
+        if (statusesToShow.length > 1) {
+          // Multiple statuses - show count breakdown
+          const statusCounts = {};
+          statusesToShow.forEach(s => {
+            statusCounts[s] = (statusCounts[s] || 0) + 1;
+          });
+          const statusLabels = Object.entries(statusCounts).map(([status, count]) => {
+            const statusClass = status.replace(/\s+/g, "-").toLowerCase();
+            return `<div class="status-badge status-${statusClass}">${count} ${status}</div>`;
+          }).join('');
+          statusBadgesHTML = statusLabels;
+        } else {
+          // Single status
+          const statusClass = statusesToShow[0].replace(/\s+/g, "-").toLowerCase();
+          statusBadgesHTML = `<div class="status-badge status-${statusClass}">${statusesToShow[0]}</div>`;
+        }
+        
+        detail.innerHTML = `
+          <div class="role-main">
+            <h3>${role.title}${role.count > 1 ? ` <span style="font-size: 16px; color: var(--on-surface-subtle);">(×${role.count})</span>` : ""}</h3>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+              ${statusBadgesHTML}
+              <div class="status-badge" style="background: var(--surface-container-low); color: var(--on-surface-subtle); border: 1px solid var(--border-subtle);">#${role.count} ${resourceText}</div>
+            </div>
+            <div class="role-description">${role.description}</div>
+          </div>
+
+          <div class="role-meta-grid">
+            <div class="meta-block">
+              <h4>Similar Roles</h4>
+              <div class="skill-list">
+                ${role.typical_names.map(name => `<div class="skill-item">${name}</div>`).join("")}
+              </div>
+            </div>
+            <div class="meta-block">
+              <h4>Primary Skills</h4>
+              <div class="skill-list">
+                ${role.primary_skills.split(";").map(s => `<div class="skill-item">${s.trim()}</div>`).join("")}
+              </div>
+            </div>
+            <div class="meta-block">
+              <h4>Secondary Skills</h4>
+              <div class="skill-list">
+                ${role.secondary_skills.split(";").map(s => `<div class="skill-item">${s.trim()}</div>`).join("")}
+              </div>
+            </div>
+          </div>
+
+          <div class="tech-stack">
+            <h4>Technology Requirements</h4>
+            <div class="tech-tags">
+              ${role.technologies.map(t => `<div class="tech-tag">${t}</div>`).join("")}
+            </div>
+          </div>
+        `;
+        content.appendChild(detail);
+      });
+    }
+
+    function selectRole(engagement, idx) {
+      document.querySelectorAll(`#${engagement}-sidebar .role-pill`).forEach((btn, i) => {
+        btn.classList.toggle("active", i === idx);
+      });
+      document.querySelectorAll(`#${engagement}-content > div`).forEach((detail, i) => {
+        detail.style.display = i === idx ? "block" : "none";
+      });
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+
+      document.querySelectorAll(".nav-link").forEach(link => {
+        link.classList.toggle("active", link.getAttribute("data-page") === pageId);
+      });
+
+      if (["drago", "horizon", "fast-track"].includes(pageId)) {
+        renderRoles(pageId);
+      }
+
+      window.scrollTo(0, 0);
+    }
+
+    // Initialize
+    renderRoles("drago");
+    renderRoles("horizon");
+    renderRoles("fast-track");
+  </script>
+</body>
+</html>
