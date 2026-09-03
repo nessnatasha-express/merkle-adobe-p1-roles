@@ -468,6 +468,18 @@
       color: var(--primary-brand);
       font-weight: 600;
     }
+    .summary-total-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--secondary-container);
+      border: 1px solid var(--secondary-brand);
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--secondary-brand);
+      font-weight: 600;
+    }
 
     /* Hero */
     .summary-hero {
@@ -613,6 +625,7 @@
               </div>
               <p>Agentic Web & EDS</p>
               <div class="summary-stat-pill">6 unique roles</div>
+              <div class="summary-total-pill">Total: 7 roles</div>
             </div>
             <div class="summary-card" onclick="showPage('horizon')">
               <div class="summary-card-header">
@@ -630,7 +643,8 @@
                 </div>
               </div>
               <p>AI Pilot Programs</p>
-              <div class="summary-stat-pill">6 unique roles</div>
+              <div class="summary-stat-pill">7 unique roles</div>
+              <div class="summary-total-pill">Total: 9 roles</div>
             </div>
             <div class="summary-card" onclick="showPage('fast-track')">
               <div class="summary-card-header">
@@ -651,6 +665,7 @@
               </div>
               <p>Workfront & AEM Assets</p>
               <div class="summary-stat-pill">5 unique roles</div>
+              <div class="summary-total-pill">Total: 5 roles</div>
             </div>
           </div>
         </div>
@@ -837,6 +852,15 @@
           primary_skills: "Change Management; Operations Management; AI Advisory",
           secondary_skills: "Stakeholder Enablement; Adoption Planning; Process Design",
           technologies: ["Change Management Frameworks", "ADKAR", "Organizational Design", "Communication Planning", "Training Development"]
+        },
+        {
+          title: "Product Manager",
+          description: "Owns program planning, resource coordination, and timeline management for pod deliverables. Orchestrates cross-functional teams, manages stakeholder communication, and ensures delivery milestones align with business objectives.",
+          status: "Open",
+          typical_names: ["Program Manager", "Project Lead", "Delivery Manager"],
+          primary_skills: "Program Planning; Resource Coordination; Timeline Management",
+          secondary_skills: "Stakeholder Communication; Delivery Oversight",
+          technologies: ["Jira", "Monday.com", "Workfront", "Gantt Charts", "Roadmap Planning"]
         }
       ],
       "fast-track": [
